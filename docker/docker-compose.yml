@@ -1,0 +1,13 @@
+version: "3"
+services:
+  dev-container:
+    container_name: dev-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/bash
+    volumes:
+    - ~/.ssh/:/home/root/.ssh
+    - ~/Documents/Workspace/ContainerBenchmarks:/home/root/ContainerBenchmarks
