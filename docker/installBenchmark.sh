@@ -19,3 +19,5 @@ cmake ../
 # Build the library.
 # Use make -j<number_of_parallel_jobs> to speed up the build process, e.g. make -j8 .
 make -j8
+
+make install
