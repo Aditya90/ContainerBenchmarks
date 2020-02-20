@@ -5,6 +5,6 @@
 
 #include <string>
 
-static void BM_SomeFunction(benchmark::State& state);
+static void SampleBenchmark(benchmark::State& state);
 
 #endif
