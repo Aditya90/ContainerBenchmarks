@@ -1,11 +1,5 @@
-#include "sampleHeader.h"
+#include "ExampleBenchmark.h"
 
-#include <iostream>
+#include <benchmark/benchmark.h>
 
-int main(int argc, char **argv)
-{
-    std::cout << ApplicationName << std::endl;
-    std::cout << "--------------" << std::endl;
-
-    return -1;
-}
+BENCHMARK_MAIN();

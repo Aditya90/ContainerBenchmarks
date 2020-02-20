@@ -2,7 +2,7 @@
 
 # Stop and remove the container
 docker-compose stop dev-container
-docker rm dev-container
+# docker rm dev-container
 
 # Rebuild the container if necessary and bring it up
 docker-compose up --build -d
