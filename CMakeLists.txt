@@ -12,4 +12,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 include_directories(include docker)
 
 # Add source sub directory
+add_subdirectory(benchmark)
 add_subdirectory(src)
