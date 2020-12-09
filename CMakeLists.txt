@@ -8,6 +8,9 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+# Disable the gtests for google benchmark as we dont have a gtest dependency added yet
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+
 # Specify include directories
 include_directories(include docker)
 
