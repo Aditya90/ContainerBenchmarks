@@ -1,13 +1,27 @@
 #include <iostream>
+#include <array>
 
 #include "CodeToTest.h"
 
-void functionToProfile(void)
+void CommunicationData::createDefaultData(void)
 {
-    int temp(1);
+    mMsg.hdr.macAddress = 0x01020304;
+    mMsg.hdr.serialNumber = 0x01020304;
 
-    for (int i=0 ;i<20 ;i++)
-    {
-        temp++;
-    }
+    mMsg.data.dataPayload = {1,
+                             2,
+                             3,
+                             4,
+                             5,
+                             6,
+                             7,
+                             8,
+                             9,
+                             10,
+                             11,
+                             12,
+                             13,
+                             14,
+                             15,
+                             16};
 }
