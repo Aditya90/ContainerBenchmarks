@@ -1,7 +1,7 @@
 add_executable(ContainerBenchmarks 
                ./main.cpp 
                ./ExampleBenchmarks.cpp
-               ./CodeToTest.cpp )
+               ./CommunicationData.cpp )
 
 target_link_libraries(ContainerBenchmarks 
                       benchmark

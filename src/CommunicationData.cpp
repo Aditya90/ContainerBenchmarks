@@ -1,7 +1,7 @@
 #include <iostream>
 #include <array>
 
-#include "CodeToTest.h"
+#include "CommunicationData.h"
 
 void CommunicationData::createDefaultData(void)
 {

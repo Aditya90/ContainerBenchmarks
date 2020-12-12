@@ -1,5 +1,5 @@
 #include "ExampleBenchmark.h"
-#include "CodeToTest.h"
+#include "CommunicationData.h"
 
 #include <benchmark/benchmark.h>
 
@@ -13,17 +13,20 @@ static void SampleBenchmark(benchmark::State &state)
   }
 }
 
+template <class TypeToTest>
 static void SampleVectorBenchmark(benchmark::State &state)
 {
   // Perform setup here
   for (auto _ : state)
   {
     // This code gets benchmark::DoNotOptimize timed
-    benchmark::DoNotOptimize(std::vector<CommunicationData>{state.range(0)});
+    benchmark::DoNotOptimize(std::vector<TypeToTest>{state.range(0)});
   }
   state.SetComplexityN(state.range(0));
 }
 
 // Register the function as a benchmark
 BENCHMARK(SampleBenchmark);
-BENCHMARK(SampleVectorBenchmark)->DenseRange(0, 1024, 128)->Complexity();
+
+BENCHMARK_TEMPLATE(SampleVectorBenchmark, CommunicationData)->RangeMultiplier(2)->Range(1 << 10, 1 << 18)->Complexity(benchmark::oN);
+BENCHMARK_TEMPLATE(SampleVectorBenchmark, int)->RangeMultiplier(2)->Range(1 << 10, 1 << 18)->Complexity(benchmark::oN);
