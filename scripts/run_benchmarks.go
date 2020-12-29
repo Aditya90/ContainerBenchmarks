@@ -10,9 +10,13 @@ import (
 func main() {
 
 	// Print Go Version
-	// cmdOutput, err := os.exec.Command("go", "version").Output()
+	var argsWithoutProg[1] string
 
-	argsWithoutProg := os.Args[1:]
+	argsWithoutProg[0] = "./build/bin/ContainerBenchmarks"
+	
+	if len(os.Args) == 2{
+		argsWithoutProg[0] = os.Args[1]
+	}
 
 	fmt.Printf("%s", argsWithoutProg)
 	
