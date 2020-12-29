@@ -16,12 +16,18 @@ func main() {
 
 	fmt.Printf("%s", argsWithoutProg)
 	
-	cmdOutput, err := exec.Command(argsWithoutProg[0]).Output()
-
+	_, err := exec.Command(argsWithoutProg[0], "--benchmark_format=json", "--benchmark_out=testBenchmarks.json").Output()
+	
 	if err != nil {
 		log.Fatal(err)
 	}
-	
-	fmt.Printf("%s", cmdOutput)
 
+	// Compare the new benchmark v/s the reference
+	compareOutput, compareErr := exec.Command("python3", "./benchmark/tools/compare.py", "benchmarks", "referenceBenchmarks.json", "testBenchmarks.json").Output();
+
+	if compareErr != nil {
+		log.Fatal(compareErr)
+	}
+	fmt.Printf("%s", compareOutput)
+	
 }
