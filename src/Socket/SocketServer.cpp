@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <iostream>
+// #include <format>
 
 #include "Socket/SocketServer.h"
 
@@ -16,6 +18,8 @@
 // export class SocketServer;
 // export class SOCKET_TYPES;
 // export class SocketClient;
+
+using namespace std;
 
 bool SocketServer::createListener(std::string address, int port, SOCKET_TYPES sockType)
 {
@@ -41,7 +45,7 @@ void SocketClient::getInfo()
     hints.ai_socktype = socketTypeToSocketInt.at(m_sockType); // TCP stream sockets
     // hints.ai_flags = AI_PASSIVE;     // fill in my IP for me
 
-    struct addrinfo *serverInfo;
+    struct addrinfo *serverInfo, *tempAddrInfo;
     int status = getaddrinfo(m_serverAddr.c_str(), // e.g. "www.example.com" or IP
                              m_port.c_str(),       // e.g. "http" or port number
                              &hints,
@@ -53,9 +57,22 @@ void SocketClient::getInfo()
         exit(1);
     }
 
+    cout << "Printing address info \n";
+    for (tempAddrInfo = serverInfo; tempAddrInfo != nullptr; tempAddrInfo = tempAddrInfo->ai_next)
+    {
+        /*
+        cout << std::format("Pointer addr - {1}, ai_flags - {2}, ai_family = {3}\n
+        ai_socktype - {4}, ai_protocol - {5}, ai_addrlen - {6}, \n
+        ai_addr = {7}, ai_canonname = {8}, ai_next = {
+            9} \n", tempAddrInfo, tempAddrInfo->ai_flags, tempAddrInfo->ai_family, tempAddrInfo->ai_socketype, tempAddrInfo->ai_protocol, tempAddrInfo->ai_addrlen, tempAddrInfo->ai_addr, tempAddrInfo->ai_canonname, tempAddrInfo->ai_next);
+        */
+
+        cout << "Pointer addr - " << tempAddrInfo << ", ai_flags - " << tempAddrInfo->ai_flags << ", ai_family - " << tempAddrInfo->ai_family << ", ai_socktype - " << tempAddrInfo->ai_socktype << ", ai_protocol - " << tempAddrInfo->ai_protocol << ", ai_addrlen - " << tempAddrInfo->ai_addrlen << ", ai_addr - " << tempAddrInfo->ai_addr << ", ai_addr - " << tempAddrInfo->ai_addr << ", ai_next - " << tempAddrInfo->ai_next << std::endl;
+    }
+    cout << "Done printing address info \n";
     // Read data
 
-    freeaddrinfo(serverInfo);
+    freeaddrinfo(tempAddrInfo);
 }
 
 // The tcp client should support
