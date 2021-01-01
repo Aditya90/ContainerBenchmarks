@@ -1,5 +1,6 @@
-#include "ExampleBenchmark.h"
-#include "CommunicationData.h"
+#include "Benchmarks/ExampleBenchmark.h"
+#include "Benchmarks/CommunicationData.h"
+#include "Benchmarks/CommunicationDataConcept.h"
 
 #include <benchmark/benchmark.h>
 
@@ -25,8 +26,19 @@ static void SampleVectorBenchmark(benchmark::State &state)
   state.SetComplexityN(state.range(0));
 }
 
+static void ConceptBenchmark(benchmark::State &state)
+{
+  // Perform setup here
+  for (auto _ : state)
+  {
+    // This code gets benchmark::DoNotOptimize timed
+    benchmark::DoNotOptimize(ConceptTests::doSomething<CommunicationData>(CommunicationData{}));
+  }
+}
+
 // Register the function as a benchmark
 BENCHMARK(SampleBenchmark);
+BENCHMARK(ConceptBenchmark);
 
 BENCHMARK_TEMPLATE(SampleVectorBenchmark, CommunicationData)->RangeMultiplier(2)->Range(1 << 10, 1 << 18)->Complexity(benchmark::oN);
 BENCHMARK_TEMPLATE(SampleVectorBenchmark, int)->RangeMultiplier(2)->Range(1 << 10, 1 << 18)->Complexity(benchmark::oN);

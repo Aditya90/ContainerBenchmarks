@@ -1,7 +1,7 @@
 #include <iostream>
 #include <array>
 
-#include "CommunicationData.h"
+#include "Benchmarks/CommunicationData.h"
 
 void CommunicationData::createDefaultData(void)
 {

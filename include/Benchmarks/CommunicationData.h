@@ -1,5 +1,4 @@
-#ifndef _CODE_TO_TEST_H_
-#define _CODE_TO_TEST_H_
+#pragma once
 
 #include <array>
 
@@ -40,5 +39,3 @@ public:
 
     void createDefaultData();
 };
-
-#endif

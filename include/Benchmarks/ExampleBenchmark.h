@@ -5,6 +5,6 @@
 
 #include <string>
 
-static void SampleBenchmark(benchmark::State& state);
+static void SampleBenchmark(benchmark::State &state);
 
 #endif
