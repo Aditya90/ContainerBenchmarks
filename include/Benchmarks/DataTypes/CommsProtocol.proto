@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package CommmsProtocol;
+
+message Header {
+  uint32 serialNumber = 1;
+  uint32 macAddress = 2;
+}
+
+message Footer {
+  uint32 crc = 1;
+}
+
+message DataPayload{
+  repeated uint32 dataPayload = 1;
+}
+
+message NetworkMessage{
+  Header hdr = 1;
+  DataPayload data = 2;
+  Footer footer = 3;
+}
