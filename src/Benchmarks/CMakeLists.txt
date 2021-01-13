@@ -5,6 +5,7 @@ add_executable(ContainerBenchmarks
 
 target_link_libraries(ContainerBenchmarks 
                       benchmark
-                      pthread)
+                      pthread
+                      CommsProtocol)
 
 add_subdirectory(DataTypes)
