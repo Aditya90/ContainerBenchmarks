@@ -40,6 +40,9 @@ public:
 
     void print();
 
+    size_t getSize() { return size_; }
+    size_t getCapacity() { return capacity_; }
+
 private:
     std::unique_ptr<T[]> queueData_;
     size_t front_{0};
