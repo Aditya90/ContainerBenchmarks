@@ -1,10 +1,10 @@
-add_executable(DataStructuresTest
-               ./testMain.cpp)
+add_executable(QueueTest
+               ./QueueTest.cpp)
 
 target_link_libraries(
-  DataStructuresTest
+  QueueTest
   gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(DataStructuresTest)
+gtest_discover_tests(QueueTest)

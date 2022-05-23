@@ -1,6 +1,6 @@
 #include "ExampleBenchmark.h"
 #include "CommunicationData.h"
-#include "DataStructures/CustomDataStructures.h"
+#include "DataStructures/Queue.h"
 
 #include <benchmark/benchmark.h>
 

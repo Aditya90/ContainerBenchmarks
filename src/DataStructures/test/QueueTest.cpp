@@ -1,4 +1,4 @@
-#include "DataStructures/CustomDataStructures.h"
+#include "DataStructures/Queue.h"
 
 #include <gtest/gtest.h>
 
