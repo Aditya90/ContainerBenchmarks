@@ -140,6 +140,34 @@ TEST_F(QueueMultiThreadedTest, When_WriteFrom2Threads_Then_NoCorruptionsOnRead)
     EXPECT_TRUE(std::is_permutation(valuesReadOut.begin(), valuesReadOut.end(), valuesToWriteThread1.begin()));
 }
 
+TEST_F(QueueMultiThreadedTest, When_WriteFrom2ThreadsReadFrom2Threads_Then_NoCorruptionsOnRead)
+{
+    std::vector<int> valuesToWriteThread1{1, 2, 3, 4, 5};
+    std::vector<int> valuesToWriteThread2{6, 7, 8};
+    std::vector<int> valuesReadOutThread3;
+    std::vector<int> valuesReadOutThread4;
+
+    {
+        // Push values from one thread to the queue
+        std::jthread thread1(this->writeToQueue, std::ref(testQueue_), valuesToWriteThread1);
+        std::jthread thread2(this->writeToQueue, std::ref(testQueue_), valuesToWriteThread2);
+
+        // Give the previous thread some headway
+        std::this_thread::sleep_for(1ms);
+
+        // Access values of the queue from another thread in parallel
+        std::jthread thread3(this->readFromQueue, std::ref(testQueue_), valuesToWriteThread1.size(), std::ref(valuesReadOutThread3));
+        std::jthread thread4(this->readFromQueue, std::ref(testQueue_), valuesToWriteThread2.size(), std::ref(valuesReadOutThread4));
+    }
+
+    // Update thread 1 data to have both thread 1 and thread 2 values, and thread 3 to have
+    // data read in thread 3 and thread 4
+    valuesToWriteThread1.insert(valuesToWriteThread1.end(), valuesToWriteThread2.begin(), valuesToWriteThread2.end());
+    valuesReadOutThread3.insert(valuesReadOutThread3.end(), valuesReadOutThread4.begin(), valuesReadOutThread4.end());
+
+    EXPECT_TRUE(std::is_permutation(valuesReadOutThread3.begin(), valuesReadOutThread3.end(), valuesToWriteThread1.begin()));
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
