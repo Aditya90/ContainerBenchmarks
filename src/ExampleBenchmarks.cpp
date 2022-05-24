@@ -6,7 +6,6 @@
 
 static void SampleBenchmark(benchmark::State &state)
 {
-  // Perform setup here
   for (auto _ : state)
   {
     // This code gets benchmark::DoNotOptimize timed
@@ -17,7 +16,6 @@ static void SampleBenchmark(benchmark::State &state)
 template <class TypeToTest>
 static void SampleVectorBenchmark(benchmark::State &state)
 {
-  // Perform setup here
   for (auto _ : state)
   {
     // This code gets benchmark::DoNotOptimize timed
@@ -29,7 +27,6 @@ static void SampleVectorBenchmark(benchmark::State &state)
 template <class TypeToTest>
 static void QueueBenchmark(benchmark::State &state)
 {
-  // Perform setup here
   for (auto _ : state)
   {
     // This code gets benchmark::DoNotOptimize timed
