@@ -46,3 +46,60 @@ TEST_F(GraphSingleThreadedTest, When_InsertMultipleNodes_Then_VerifyElementsAndS
     EXPECT_EQ(expectedNodes, testGraph_.getAllNodesInGraph());
     EXPECT_EQ(3, testGraph_.getAllNodesInGraph().size());
 }
+
+TEST_F(GraphSingleThreadedTest, When_InsertNewNodeParentToExistingNode_Then_Successful)
+{
+    int childNode{1};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(childNode));
+
+    int parentNode{6};
+    EXPECT_TRUE(testGraph_.addParentToNode(childNode, parentNode));
+
+    std::set<int> expectedNodes{1, 6};
+    EXPECT_EQ(expectedNodes, testGraph_.getAllNodesInGraph());
+    EXPECT_EQ(2, testGraph_.getAllNodesInGraph().size());
+}
+
+TEST_F(GraphSingleThreadedTest, When_InsertNewNodeParentToMissingNode_Then_Failure)
+{
+    int childNode{1};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(childNode));
+
+    int wrongChildNode{2};
+    int parentNode{6};
+    EXPECT_FALSE(testGraph_.addParentToNode(wrongChildNode, parentNode));
+
+    std::set<int> expectedNodes{1};
+    EXPECT_EQ(expectedNodes, testGraph_.getAllNodesInGraph());
+    EXPECT_EQ(1, testGraph_.getAllNodesInGraph().size());
+}
+
+TEST_F(GraphSingleThreadedTest, WHEN_InsertParentToExistingNode_Then_Successful)
+{
+    int childNode{1};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(childNode));
+    int parentNode{6};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(parentNode));
+
+    EXPECT_TRUE(testGraph_.addParentToNode(childNode, parentNode));
+
+    std::set<int> expectedNodes{1, 6};
+    EXPECT_EQ(expectedNodes, testGraph_.getAllNodesInGraph());
+    EXPECT_EQ(2, testGraph_.getAllNodesInGraph().size());
+}
+
+TEST_F(GraphSingleThreadedTest, WHEN_InsertParentWhenMultipleNodes_Then_Successful)
+{
+    int childNode{1};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(childNode));
+    int randomNode{2};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(randomNode));
+    int parentNode{6};
+    EXPECT_TRUE(testGraph_.addNodeToGraph(parentNode));
+
+    EXPECT_TRUE(testGraph_.addParentToNode(childNode, parentNode));
+
+    std::set<int> expectedNodes{1, 2, 6};
+    EXPECT_EQ(expectedNodes, testGraph_.getAllNodesInGraph());
+    EXPECT_EQ(3, testGraph_.getAllNodesInGraph().size());
+}

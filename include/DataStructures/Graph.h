@@ -1,6 +1,7 @@
 #include <vector>
 #include <set>
 #include <utility>
+#include <iostream>
 
 /**
  * Graph
@@ -42,7 +43,30 @@ bool DirectionalGraph<NodeId, hasCycles>::addNodeToGraph(NodeId &newNodeId)
 template <typename NodeId, bool hasCycles>
 bool DirectionalGraph<NodeId, hasCycles>::addParentToNode(NodeId &childNode, NodeId &parentNode)
 {
-    return false;
+    bool retVal{false};
+    if (allNodes_.contains(childNode))
+    {
+        // TODO - Clean up returning from within a function
+        if (!allNodes_.contains(parentNode))
+        {
+            if (!this->addNodeToGraph(parentNode))
+            {
+                return false;
+            }
+        }
+
+        auto graphIt = std::find_if(graph_.begin(), graph_.end(),
+                                    [&childNode](auto graphEntry)
+                                    {
+                                        return (graphEntry.first == childNode);
+                                    });
+        if (graphIt != graph_.end())
+        {
+            graphIt->second.push_back(parentNode);
+            retVal = true;
+        }
+    }
+    return retVal;
 }
 template <typename NodeId, bool hasCycles>
 std::set<NodeId> DirectionalGraph<NodeId, hasCycles>::getAllNodesInGraph()
