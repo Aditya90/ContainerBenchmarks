@@ -2,6 +2,8 @@
 #include <set>
 #include <utility>
 #include <iostream>
+#include <algorithm>
+#include <list>
 
 /**
  * Graph
@@ -25,6 +27,8 @@ public:
     void printNodesByLevel();
 
 private:
+    void dfsAddNextNodeToList(NodeId curNode, std::set<NodeId> &addedNodes, std::list<NodeId> &orderedListOfNodes);
+
     std::set<NodeId> allNodes_;
     std::vector<std::pair<NodeId, std::vector<NodeId>>> graph_;
 };
@@ -54,7 +58,8 @@ bool DirectionalGraph<NodeId, hasCycles>::addParentToNode(NodeId &childNode, Nod
                 return false;
             }
         }
-
+        // TODO - Handle cycles based on template parameters. If cycle not allowed, traverse and ensure in the
+        // case the parent already existed in the graph
         auto graphIt = std::find_if(graph_.begin(), graph_.end(),
                                     [&childNode](auto graphEntry)
                                     {
@@ -62,8 +67,12 @@ bool DirectionalGraph<NodeId, hasCycles>::addParentToNode(NodeId &childNode, Nod
                                     });
         if (graphIt != graph_.end())
         {
-            graphIt->second.push_back(parentNode);
-            retVal = true;
+            // Check if parent already exists in the child's parent list
+            if (std::find(graphIt->second.begin(), graphIt->second.end(), parentNode) == graphIt->second.end())
+            {
+                graphIt->second.push_back(parentNode);
+                retVal = true;
+            }
         }
     }
     return retVal;
@@ -77,4 +86,42 @@ std::set<NodeId> DirectionalGraph<NodeId, hasCycles>::getAllNodesInGraph()
 template <typename NodeId, bool hasCycles>
 void DirectionalGraph<NodeId, hasCycles>::printNodesByLevel()
 {
+    std::list<NodeId> orderedListOfNodes;
+    std::set<NodeId> addedNodes;
+
+    std::set<NodeId> allNodes = this->allNodes_;
+    // TODO
+    while (!allNodes.empty())
+    {
+        dfsAddNextNodeToList(*allNodes.begin());
+    }
+}
+
+template <typename NodeId, bool hasCycles>
+void DirectionalGraph<NodeId, hasCycles>::dfsAddNextNodeToList(NodeId curNode, std::set<NodeId> &addedNodes,
+                                                               std::list<NodeId> &orderedListOfNodes)
+{
+    if (addedNodes.contains(curNode))
+    {
+        return;
+    }
+    else
+    {
+        // Go through each parent node
+        auto graphIt = std::find_if(graph_.begin(), graph_.end(),
+                                    [&curNode](auto graphEntry)
+                                    {
+                                        return (graphEntry.first == curNode);
+                                    });
+        if (graphIt != graph_.end())
+        {
+            for (const auto &parentNodeId : graphIt->second)
+            {
+            }
+        }
+        else
+        {
+            // Add to the front of the init list
+        }
+    }
 }

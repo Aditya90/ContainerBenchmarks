@@ -3,3 +3,4 @@ build
 docker/benchmark
 testBenchmarks.json
 .vs
+.aider*
